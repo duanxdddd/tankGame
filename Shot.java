@@ -40,7 +40,6 @@ public class Shot implements Runnable {
                 isAlive = false;
                 break;
             }
-            System.out.println("bullet at: "+x + "," + y);
         }
     }
 }

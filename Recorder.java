@@ -17,6 +17,10 @@ public class Recorder {
         return enemyTanks;
     }
 
+    public static String getRecordFile() {
+        return recordFile;
+    }
+
     // read history tank record from disk
     public static Vector<TankInfo> getTankInfoRec() {
         try {

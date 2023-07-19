@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener, Runnable {
@@ -17,7 +18,15 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     int enemyTankSize = 3;
     public MyPanel(String key) {
-        Vector<TankInfo> tankInfos = Recorder.getTankInfoRec();
+        // check if record file exists
+        File file = new File(Recorder.getRecordFile());
+        Vector<TankInfo> tankInfos = null;
+        if (file.exists()) {
+            tankInfos = Recorder.getTankInfoRec();
+        } else {
+            System.out.println("No record found. You can only start a new game...");
+            key = "1";
+        }
         switch (key) {
             default:
                 System.out.println("Wrong input, starting new game...");
