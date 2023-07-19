@@ -3,14 +3,18 @@ package com.hspedu.tankGame01;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Scanner;
 
 public class TankGame01 extends JFrame {
     MyPanel mp = null;
+    Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         TankGame01 tankGame = new TankGame01();
     }
     public TankGame01() {
-        mp = new MyPanel();
+        System.out.println("Please select 1: new game, 2: resume...");
+        String key = scanner.next();
+        mp = new MyPanel(key);
         Thread thread = new Thread(mp);
         thread.start();
         this.add(mp);

@@ -16,16 +16,34 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     Image image3 = null;
 
     int enemyTankSize = 3;
-    public MyPanel() {
+    public MyPanel(String key) {
+        Vector<TankInfo> tankInfos = Recorder.getTankInfoRec();
+        switch (key) {
+            default:
+                System.out.println("Wrong input, starting new game...");
+            case "1": // new game
+                for (int i = 0; i < enemyTankSize; i++) {
+                    EnemyTank enemyTank = new EnemyTank(100 * (i + 1), 0);
+                    enemyTank.setDirect(2);
+                    enemyTank.setEnemyTanks(enemyTanks);
+                    new Thread(enemyTank).start();
+                    enemyTanks.add(enemyTank);
+                }
+                break;
+            case "2": // resume
+                for (TankInfo ti : tankInfos) {
+                    EnemyTank enemyTank = new EnemyTank(ti.getX(), ti.getY());
+                    enemyTank.setDirect(ti.getDirect());
+                    enemyTank.setEnemyTanks(enemyTanks);
+                    new Thread(enemyTank).start();
+                    enemyTanks.add(enemyTank);
+                }
+                break;
+        }
         hero = new Hero(100, 200);
         hero.setSpeed(10);
-        for (int i = 0; i < enemyTankSize; i++) {
-            EnemyTank enemyTank = new EnemyTank(100 * (i + 1), 0);
-            enemyTank.setDirect(2);
-            enemyTank.setEnemyTanks(enemyTanks);
-            new Thread(enemyTank).start();
-            enemyTanks.add(enemyTank);
-        }
+
+        Recorder.setEnemyTanks(enemyTanks);
         // init images
         image1 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("/com/hspedu/tankGame01/bomb_1.gif"));
         image2 = Toolkit.getDefaultToolkit().getImage(MyPanel.class.getResource("/com/hspedu/tankGame01/bomb_2.gif"));
