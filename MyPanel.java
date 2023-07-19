@@ -33,11 +33,21 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     }
 
+    public void showInfo(Graphics g) {
+        g.setColor(Color.black);
+        Font font = new Font("Calibri", Font.BOLD, 15);
+        g.setFont(font);
+        g.drawString("You have destroyed #enemies:", 1010, 30);
+        drawTank(1010, 60, g, 0, 1);
+        g.setColor(Color.black);
+        g.drawString(Recorder.getNumEnemyDestroyed() + "", 1060, 100);
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         g.fillRect(0,0,1000,750);
-
+        showInfo(g);
         // draw hero bullet
         for (int i = 0; i < hero.shots.size(); i++) {
             Shot shot = hero.shots.get(i);
@@ -159,7 +169,10 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     s.isAlive = false;
                     tank.isAlive = false;
                     Bomb bomb = new Bomb(tank.getX(), tank.getY());
-                    enemyTanks.remove(tank);
+                    if (tank instanceof EnemyTank) {
+                        enemyTanks.remove(tank);
+                        Recorder.addNumEnemyDestroyed();
+                    }
                     bombs.add(bomb);
                 }
                 break;
@@ -170,7 +183,10 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     s.isAlive = false;
                     tank.isAlive = false;
                     Bomb bomb = new Bomb(tank.getX(), tank.getY());
-                    enemyTanks.remove(tank);
+                    if (tank instanceof EnemyTank) {
+                        enemyTanks.remove(tank);
+                        Recorder.addNumEnemyDestroyed();
+                    }
                     bombs.add(bomb);
                 }
                 break;
